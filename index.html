@@ -48,7 +48,7 @@ products.forEach(p => {
     <div class="meta">Created: ${esc(p.year || '-')}</div>
     <div class="meta">${esc(p.description || '')}</div>
     <div class="price">$${esc(p.price)}</div>
-    <a class="btn" href="${link}" target="_blank" rel="noopener">${p.sold ? 'Sold' : 'Buy / Contact'}</a>`;
+    <a class="btn" href="${link}" target="_blank" rel="noopener">${p.sold ? 'Sold' : 'Buy'}</a>`;
   grid.appendChild(el);
 });
 </script>
