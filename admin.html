@@ -34,7 +34,6 @@
   <div class="card">
     <h2>Store settings</h2>
     <input id="sName" placeholder="Store name">
-    <input id="sContact" placeholder="Contact link (Discord invite, Telegram, WhatsApp...)">
     <button onclick="saveSettings()">Save settings</button>
   </div>
 
@@ -43,7 +42,8 @@
     <input id="title" placeholder="Title (e.g. Aged account 2016)">
     <input id="year" placeholder="Creation year">
     <textarea id="desc" rows="3" placeholder="Description"></textarea>
-    <input id="price" type="number" step="0.01" placeholder="Price (USD)">
+    <input id="price" type="number" step="0.01" placeholder="Price (MAD)">
+    <input id="link" placeholder="Stripe payment link (https://buy.stripe.com/...)">
     <button onclick="saveProduct()">Save</button>
     <button class="gray" onclick="resetForm()">Clear</button>
   </div>
@@ -86,13 +86,14 @@ function show(){
   document.getElementById('login').hidden = true;
   document.getElementById('panel').hidden = false;
   const s = load('settings', { name:'', contact:'' });
-  sName.value = s.name || ''; sContact.value = s.contact || '';
+  sName.value = s.name || '';
   render();
 }
-function saveSettings(){ save('settings', { name:sName.value.trim(), contact:sContact.value.trim() }); alert('Saved'); }
+function saveSettings(){ save('settings', { name:sName.value.trim() }); alert('Saved'); }
 function saveProduct(){
   if (!title.value.trim() || !price.value) return alert('Title and price are required');
-  const item = { id: editing ?? Date.now(), title:title.value.trim(), year:year.value.trim(), description:desc.value.trim(), price:price.value, sold:false };
+  if (link.value.trim() && !/^https:\/\//i.test(link.value.trim())) return alert('Link must start with https://');
+  const item = { id: editing ?? Date.now(), title:title.value.trim(), year:year.value.trim(), description:desc.value.trim(), price:price.value, link:link.value.trim(), sold:false };
   if (editing !== null){
     const old = products.find(p => p.id === editing);
     item.sold = old ? old.sold : false;
@@ -100,10 +101,10 @@ function saveProduct(){
   } else products.push(item);
   save('products', products); resetForm(); render();
 }
-function resetForm(){ editing = null; title.value = year.value = desc.value = price.value = ''; formTitle.textContent = 'Add account'; }
+function resetForm(){ editing = null; title.value = year.value = desc.value = price.value = link.value = ''; formTitle.textContent = 'Add account'; }
 function edit(id){
   const p = products.find(x => x.id === id); if (!p) return;
-  editing = id; title.value = p.title; year.value = p.year; desc.value = p.description; price.value = p.price;
+  editing = id; title.value = p.title; year.value = p.year; desc.value = p.description; price.value = p.price; link.value = p.link || '';
   formTitle.textContent = 'Edit account'; scrollTo(0,0);
 }
 function toggleSold(id){ products = products.map(p => p.id === id ? {...p, sold:!p.sold} : p); save('products', products); render(); }
@@ -112,7 +113,7 @@ function render(){
   const l = document.getElementById('list');
   if (!products.length){ l.innerHTML = '<small style="color:#8b90a0">Nothing yet.</small>'; return; }
   l.innerHTML = products.map(p => `<div class="row">
-    <div><b>${esc(p.title)}</b> ${p.sold ? '(sold)' : ''}<br><small>${esc(p.year)} · $${esc(p.price)}</small></div>
+    <div><b>${esc(p.title)}</b> ${p.sold ? '(sold)' : ''}<br><small>${esc(p.year)} · ${esc(p.price)} MAD${p.link ? '' : ' · no link'}</small></div>
     <div class="actions">
       <button class="gray" onclick="edit(${p.id})">Edit</button>
       <button onclick="toggleSold(${p.id})">${p.sold ? 'Unsell' : 'Sold'}</button>
