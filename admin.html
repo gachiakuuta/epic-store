@@ -34,6 +34,10 @@
   <div class="card">
     <h2>Store settings</h2>
     <input id="sName" placeholder="Store name">
+    <textarea id="sAbout" rows="2" placeholder="Short text about your store (shown at the top)"></textarea>
+    <input id="sPhone" placeholder="Phone / WhatsApp (e.g. +212 6 00 00 00 00)">
+    <input id="sEmail" type="email" placeholder="Email">
+    <input id="sPayments" placeholder="Payment methods, separated by commas (e.g. Visa / Mastercard, Bank transfer, Cash Plus)">
     <button onclick="saveSettings()">Save settings</button>
   </div>
 
@@ -86,10 +90,14 @@ function show(){
   document.getElementById('login').hidden = true;
   document.getElementById('panel').hidden = false;
   const s = load('settings', { name:'', contact:'' });
-  sName.value = s.name || '';
+  sName.value = s.name || ''; sAbout.value = s.about || ''; sPhone.value = s.phone || '';
+  sEmail.value = s.email || ''; sPayments.value = s.payments || '';
   render();
 }
-function saveSettings(){ save('settings', { name:sName.value.trim() }); alert('Saved'); }
+function saveSettings(){
+  save('settings', { name:sName.value.trim(), about:sAbout.value.trim(), phone:sPhone.value.trim(), email:sEmail.value.trim(), payments:sPayments.value.trim() });
+  alert('Saved');
+}
 function saveProduct(){
   if (!title.value.trim() || !price.value) return alert('Title and price are required');
   if (link.value.trim() && !/^https:\/\//i.test(link.value.trim())) return alert('Link must start with https://');
