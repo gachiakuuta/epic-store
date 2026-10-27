@@ -3,43 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Buy aged Discord accounts. Secure payment, fast support.">
+<meta name="referrer" content="no-referrer">
 <title>Account Store</title>
 <style>
-  :root{--bg:#0f1117;--card:#181b24;--text:#e8eaf0;--muted:#8b90a0;--accent:#5865f2}
+  :root{--bg:#0f1117;--card:#181b24;--line:#232735;--text:#e8eaf0;--muted:#8b90a0;--accent:#5865f2;--ok:#3ba55d}
   *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--text)}
-  header{padding:24px 16px;text-align:center;border-bottom:1px solid #232735}
-  header h1{margin:0 0 6px;font-size:24px}
-  header p{margin:0;color:var(--muted)}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+  a{color:inherit}
+  nav{position:sticky;top:0;background:#0f1117ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:5}
+  nav .in{max-width:1000px;margin:0 auto;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  nav b{font-size:18px}
+  nav .links{display:flex;gap:16px;font-size:14px}
+  nav .links a{text-decoration:none;color:var(--muted)}
+  nav .links a:hover{color:var(--text)}
+  .hero{text-align:center;padding:40px 16px 24px}
+  .hero h1{margin:0 0 8px;font-size:30px}
+  .hero p{margin:0 auto;max-width:560px;color:var(--muted)}
+  .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .badge{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--muted)}
+  .badge i{color:var(--ok);font-style:normal}
   main{max-width:1000px;margin:0 auto;padding:16px}
+  section{margin:36px 0}
+  section h2{font-size:22px;margin:0 0 14px}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
-  .card{background:var(--card);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+  .card{background:var(--card);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line)}
   .card h3{margin:0;font-size:17px}
   .meta{color:var(--muted);font-size:14px}
   .price{font-size:20px;font-weight:700}
-  .btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px;text-align:center;text-decoration:none;font-weight:600;cursor:pointer}
+  .btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px;text-align:center;text-decoration:none;font-weight:600;cursor:pointer;display:block}
   .sold{opacity:.5}
   .sold .btn{background:#444;pointer-events:none}
   .empty{text-align:center;color:var(--muted);padding:40px 0}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .step .n{width:28px;height:28px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:700;margin-bottom:8px}
+  .step p{margin:4px 0 0;color:var(--muted);font-size:14px}
+  .pay{display:flex;flex-wrap:wrap;gap:10px}
+  .pay span{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-weight:600}
+  details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:8px}
+  summary{cursor:pointer;font-weight:600}
+  details p{color:var(--muted);margin:8px 0 0;font-size:14px}
+  .contact{display:flex;flex-wrap:wrap;gap:10px}
+  .contact a{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;text-decoration:none}
+  .contact small{display:block;color:var(--muted)}
+  footer{border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13px;padding:24px 16px}
 </style>
 </head>
 <body>
-<header>
-  <h1 id="storeName">Account Store</h1>
-  <p>Browse available accounts and buy securely.</p>
-</header>
+
+<nav><div class="in">
+  <b id="storeName">Account Store</b>
+  <div class="links">
+    <a href="#accounts">Accounts</a><a href="#how">How it works</a><a href="#payment">Payment</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+  </div>
+</div></nav>
+
+<div class="hero">
+  <h1>Aged Discord accounts</h1>
+  <p id="about">Browse available accounts, pay securely, and get your account details fast after payment.</p>
+  <div class="badges">
+    <span class="badge"><i>&#10003;</i> Secure payment (HTTPS)</span>
+    <span class="badge"><i>&#10003;</i> Fast delivery</span>
+    <span class="badge"><i>&#10003;</i> Support by phone &amp; email</span>
+  </div>
+</div>
+
 <main>
-  <div class="grid" id="grid"></div>
-  <div class="empty" id="empty" hidden>No accounts available right now.</div>
+  <section id="accounts">
+    <h2>Available accounts</h2>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>No accounts available right now.</div>
+  </section>
+
+  <section id="how">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><b>Choose</b><p>Pick the account you want and press Buy.</p></div>
+      <div class="step"><div class="n">2</div><b>Pay</b><p>You are redirected to a secure payment page. We never see your card details.</p></div>
+      <div class="step"><div class="n">3</div><b>Receive</b><p>Contact us with your payment confirmation and we send your account details.</p></div>
+    </div>
+  </section>
+
+  <section id="payment" hidden>
+    <h2>Payment methods</h2>
+    <div class="pay" id="pay"></div>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <details><summary>Is the payment secure?</summary><p>Card payments are handled by Stripe on its own page. This site never receives or stores your card number.</p></details>
+    <details><summary>How long does delivery take?</summary><p>After payment, contact us by phone, WhatsApp or email with your payment confirmation and we reply as soon as possible.</p></details>
+    <details><summary>What should I do after receiving the account?</summary><p>Change the email and password right away and turn on two-factor authentication to protect your account.</p></details>
+    <details><summary>Can I get a refund?</summary><p>Contact us before using the account if there is a problem and we will review your case.</p></details>
+  </section>
+
+  <section id="contact" hidden>
+    <h2>Contact us</h2>
+    <div class="contact" id="contactList"></div>
+  </section>
 </main>
+
+<footer>&copy; <span id="year"></span> <span id="foot">Account Store</span>. This store is not affiliated with Discord Inc.</footer>
+
 <script>
 function load(k, d){ try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch(e){ return d; } }
-const products = load('products', []);
-const settings = load('settings', { name:'Account Store', contact:'' });
-document.getElementById('storeName').textContent = settings.name || 'Account Store';
-const grid = document.getElementById('grid');
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-if (!products.length) document.getElementById('empty').hidden = false;
+const products = load('products', []);
+const s = load('settings', {});
+const name = s.name || 'Account Store';
+document.title = name;
+storeName.textContent = name; foot.textContent = name;
+year.textContent = new Date().getFullYear();
+if (s.about) about.textContent = s.about;
+
+// products
+if (!products.length) empty.hidden = false;
 products.forEach(p => {
   const el = document.createElement('div');
   el.className = 'card' + (p.sold ? ' sold' : '');
@@ -48,9 +128,24 @@ products.forEach(p => {
     <div class="meta">Created: ${esc(p.year || '-')}</div>
     <div class="meta">${esc(p.description || '')}</div>
     <div class="price">${esc(p.price)} MAD</div>
-    <a class="btn" href="${link}" rel="noopener">${p.sold ? 'Sold' : 'Buy'}</a>`;
+    <a class="btn" href="${link}" rel="noopener noreferrer">${p.sold ? 'Sold' : 'Buy'}</a>`;
   grid.appendChild(el);
 });
+
+// payment methods
+const methods = (s.payments || 'Visa / Mastercard (Stripe)').split(',').map(x => x.trim()).filter(Boolean);
+if (methods.length){ payment.hidden = false; pay.innerHTML = methods.map(m => `<span>${esc(m)}</span>`).join(''); }
+
+// contact
+const items = [];
+const phone = (s.phone || '').trim();
+if (phone){
+  const digits = phone.replace(/[^\d]/g, '');
+  items.push(`<a href="tel:${esc('+' + digits)}"><small>Phone</small>${esc(phone)}</a>`);
+  items.push(`<a href="https://wa.me/${esc(digits)}" target="_blank" rel="noopener noreferrer"><small>WhatsApp</small>Chat now</a>`);
+}
+if (s.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email)) items.push(`<a href="mailto:${esc(s.email)}"><small>Email</small>${esc(s.email)}</a>`);
+if (items.length){ contact.hidden = false; contactList.innerHTML = items.join(''); }
 </script>
 </body>
 </html>
