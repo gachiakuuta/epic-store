@@ -26,7 +26,7 @@
 <body>
 <header>
   <h1 id="storeName">Account Store</h1>
-  <p>Browse available accounts and contact us to buy.</p>
+  <p>Browse available accounts and buy securely.</p>
 </header>
 <main>
   <div class="grid" id="grid"></div>
@@ -43,12 +43,12 @@ if (!products.length) document.getElementById('empty').hidden = false;
 products.forEach(p => {
   const el = document.createElement('div');
   el.className = 'card' + (p.sold ? ' sold' : '');
-  const link = settings.contact ? esc(settings.contact) : '#';
+  const link = /^https:\/\//i.test(p.link || '') ? esc(p.link) : '#';
   el.innerHTML = `<h3>${esc(p.title)}</h3>
     <div class="meta">Created: ${esc(p.year || '-')}</div>
     <div class="meta">${esc(p.description || '')}</div>
-    <div class="price">$${esc(p.price)}</div>
-    <a class="btn" href="${link}" target="_blank" rel="noopener">${p.sold ? 'Sold' : 'Buy'}</a>`;
+    <div class="price">${esc(p.price)} MAD</div>
+    <a class="btn" href="${link}" rel="noopener">${p.sold ? 'Sold' : 'Buy'}</a>`;
   grid.appendChild(el);
 });
 </script>
