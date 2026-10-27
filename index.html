@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Store</title>
+<style>
+  :root{--bg:#0f1117;--card:#181b24;--text:#e8eaf0;--muted:#8b90a0;--accent:#5865f2}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--text)}
+  header{padding:24px 16px;text-align:center;border-bottom:1px solid #232735}
+  header h1{margin:0 0 6px;font-size:24px}
+  header p{margin:0;color:var(--muted)}
+  main{max-width:1000px;margin:0 auto;padding:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .card{background:var(--card);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+  .card h3{margin:0;font-size:17px}
+  .meta{color:var(--muted);font-size:14px}
+  .price{font-size:20px;font-weight:700}
+  .btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px;text-align:center;text-decoration:none;font-weight:600;cursor:pointer}
+  .sold{opacity:.5}
+  .sold .btn{background:#444;pointer-events:none}
+  .empty{text-align:center;color:var(--muted);padding:40px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="storeName">Account Store</h1>
+  <p>Browse available accounts and contact us to buy.</p>
+</header>
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>No accounts available right now.</div>
+</main>
+<script>
+function load(k, d){ try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch(e){ return d; } }
+const products = load('products', []);
+const settings = load('settings', { name:'Account Store', contact:'' });
+document.getElementById('storeName').textContent = settings.name || 'Account Store';
+const grid = document.getElementById('grid');
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+if (!products.length) document.getElementById('empty').hidden = false;
+products.forEach(p => {
+  const el = document.createElement('div');
+  el.className = 'card' + (p.sold ? ' sold' : '');
+  const link = settings.contact ? esc(settings.contact) : '#';
+  el.innerHTML = `<h3>${esc(p.title)}</h3>
+    <div class="meta">Created: ${esc(p.year || '-')}</div>
+    <div class="meta">${esc(p.description || '')}</div>
+    <div class="price">$${esc(p.price)}</div>
+    <a class="btn" href="${link}" target="_blank" rel="noopener">${p.sold ? 'Sold' : 'Buy / Contact'}</a>`;
+  grid.appendChild(el);
+});
+</script>
+</body>
+</html>
