@@ -141,7 +141,6 @@ const items = [];
 const phone = (s.phone || '').trim();
 if (phone){
   const digits = phone.replace(/[^\d]/g, '');
-  items.push(`<a href="tel:${esc('+' + digits)}"><small>Phone</small>${esc(phone)}</a>`);
   items.push(`<a href="https://wa.me/${esc(digits)}" target="_blank" rel="noopener noreferrer"><small>WhatsApp</small>Chat now</a>`);
 }
 if (s.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email)) items.push(`<a href="mailto:${esc(s.email)}"><small>Email</small>${esc(s.email)}</a>`);
